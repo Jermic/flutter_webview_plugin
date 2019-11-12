@@ -139,7 +139,7 @@ public class BrowserClient extends WebViewClient {
         }
     }
 
-    public static boolean hasAd(String url) {
+    private boolean hasAd(String url) {
         if (invalidADUrlPattern == null) {
             return false;
         } else {
