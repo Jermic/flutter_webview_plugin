@@ -63,11 +63,11 @@ public class BrowserClient extends WebViewClient {
     @Override
     public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
         url = url.toLowerCase();
- if (!ADFilterTool.hasAd(context, url)) {
-                return super.shouldInterceptRequest(view, url);//正常加载
-            }else{
-                return new WebResourceResponse(null,null,null);//含有广告资源屏蔽请求
-            }
+        if (!this.hasAd(url)) {
+            return super.shouldInterceptRequest(view, url);//正常加载
+        }else{
+            return new WebResourceResponse(null,null,null);//含有广告资源屏蔽请求
+        }
     }
 
     @Override
