@@ -364,6 +364,7 @@ class WebviewManager {
             boolean allowFileURLs,
             boolean useWideViewPort,
             String invalidUrlRegex,
+            String invalidADUrlRegex,
             boolean geolocationEnabled,
             boolean debuggingEnabled
     ) {
@@ -390,6 +391,7 @@ class WebviewManager {
         }
 
         webViewClient.updateInvalidUrlRegex(invalidUrlRegex);
+        webViewClient.updateInvalidADUrlRegex(invalidADUrlRegex);
 
         if (geolocationEnabled) {
             webView.getSettings().setGeolocationEnabled(true);

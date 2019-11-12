@@ -231,6 +231,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   userAgent: kAndroidUserAgent,
                   invalidUrlRegex:
                       r'^(https).+(twitter)', // prevent redirecting to twitter when user click on its icon in flutter website
+                  invalidADUrlRegex: '',
                 );
               },
               child: const Text('Open Webview (rect)'),

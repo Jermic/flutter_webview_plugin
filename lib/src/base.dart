@@ -163,6 +163,7 @@ class FlutterWebviewPlugin {
     bool allowFileURLs,
     bool useWideViewPort,
     String invalidUrlRegex,
+    String invalidADUrlRegex,
     bool geolocationEnabled,
     bool debuggingEnabled,
   }) async {
@@ -185,6 +186,7 @@ class FlutterWebviewPlugin {
       'allowFileURLs': allowFileURLs ?? false,
       'useWideViewPort': useWideViewPort ?? false,
       'invalidUrlRegex': invalidUrlRegex,
+      'invalidADUrlRegex': invalidADUrlRegex,
       'geolocationEnabled': geolocationEnabled ?? false,
       'withOverviewMode': withOverviewMode ?? false,
       'debuggingEnabled': debuggingEnabled ?? false,

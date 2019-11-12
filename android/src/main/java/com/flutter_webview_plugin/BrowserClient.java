@@ -19,15 +19,19 @@ import java.util.regex.Pattern;
 
 public class BrowserClient extends WebViewClient {
     private Pattern invalidUrlPattern = null;
+    private Pattern invalidADUrlPattern = null;
 
     public BrowserClient() {
         this(null);
     }
 
-    public BrowserClient(String invalidUrlRegex) {
+    public BrowserClient(String invalidUrlRegex, String invalidADUrlRegex) {
         super();
         if (invalidUrlRegex != null) {
             invalidUrlPattern = Pattern.compile(invalidUrlRegex);
+        }
+        if (invalidADUrlRegex != null) {
+            invalidADUrlPattern = Pattern.compile(invalidADUrlRegex);
         }
     }
 
@@ -39,6 +43,14 @@ public class BrowserClient extends WebViewClient {
         }
     }
 
+    public void updateInvalidADUrlRegex(String invalidADUrlRegex) {
+        if (invalidADUrlRegex != null) {
+            invalidADUrlPattern = Pattern.compile(invalidADUrlRegex);
+        } else {
+            invalidADUrlPattern = null;
+        }
+    }
+
     @Override
     public void onPageStarted(WebView view, String url, Bitmap favicon) {
         super.onPageStarted(view, url, favicon);
@@ -46,6 +58,16 @@ public class BrowserClient extends WebViewClient {
         data.put("url", url);
         data.put("type", "startLoad");
         FlutterWebviewPlugin.channel.invokeMethod("onState", data);
+    }
+
+    @Override
+    public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
+        url = url.toLowerCase();
+ if (!ADFilterTool.hasAd(context, url)) {
+                return super.shouldInterceptRequest(view, url);//正常加载
+            }else{
+                return new WebResourceResponse(null,null,null);//含有广告资源屏蔽请求
+            }
     }
 
     @Override
@@ -113,6 +135,15 @@ public class BrowserClient extends WebViewClient {
             return false;
         } else {
             Matcher matcher = invalidUrlPattern.matcher(url);
+            return matcher.lookingAt();
+        }
+    }
+
+    public static boolean hasAd(String url) {
+        if (invalidADUrlPattern == null) {
+            return false;
+        } else {
+            Matcher matcher = invalidADUrlPattern.matcher(url);
             return matcher.lookingAt();
         }
     }
